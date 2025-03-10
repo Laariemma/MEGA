@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\FeedbackController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,3 +24,7 @@ require __DIR__.'/auth.php';
 //Route::get('admin/dashboard',[HomeController::class, 'index']);
 Route::get('admin/dashboard', [HomeController::class, 'index'])->middleware(['auth','admin']);
 Route::get('employee/dashboard', [HomeController::class, 'employee']);
+
+
+
+Route::post('/submit', [FeedbackController::class, 'store']);
