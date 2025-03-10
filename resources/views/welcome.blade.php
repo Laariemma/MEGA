@@ -54,8 +54,15 @@
     <input type="text" id="aihe" name="aihe"><br><br>
     <label for="palaute">Palaute:</label><br>
     <textarea id="palaute" name="palaute" rows="10" cols="30"></textarea><br><br>
-    <input type="submit" value="Submit">
+    <input type="submit" value="Submit"><br><br>
 </form>
+<h2>Saadut palautteet:</h2>
+    @foreach ($feedbacks as $feedback)
+        <div>
+            <h3>{{ $feedback->aihe }}</h3>
+            <p>{{ $feedback->palaute }}</p>
+        </div>
+    @endforeach
 
 </body>
 

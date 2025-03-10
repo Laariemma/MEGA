@@ -16,4 +16,10 @@ class FeedbackController extends Controller
 
         return redirect('/')->with('success', 'Palaute tallennettu onnistuneesti!');
     }
+    
+    public function index()
+    {
+        $feedbacks = Feedback::all();
+        return view('welcome', compact('feedbacks'));
+    }
 }

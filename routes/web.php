@@ -26,5 +26,5 @@ Route::get('admin/dashboard', [HomeController::class, 'index'])->middleware(['au
 Route::get('employee/dashboard', [HomeController::class, 'employee']);
 
 
-
+Route::get('/', [FeedbackController::class, 'index']);
 Route::post('/submit', [FeedbackController::class, 'store']);
