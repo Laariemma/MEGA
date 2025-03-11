@@ -54,6 +54,8 @@
     <input type="text" id="aihe" name="aihe"><br><br>
     <label for="palaute">Palaute:</label><br>
     <textarea id="palaute" name="palaute" rows="10" cols="30"></textarea><br><br>
+    <label for="email">Sähköposti:</label><br>
+    <input type="email" id="email" name="email"><br><br>
     <input type="submit" value="Submit"><br><br>
 </form>
 <h2>Saadut palautteet:</h2>

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('aihe');
             $table->text('palaute');
+            $table->string('email');
             $table->timestamps();
         });
     }

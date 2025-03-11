@@ -12,6 +12,7 @@ class FeedbackController extends Controller
         $feedback = new Feedback;
         $feedback->aihe = $request->aihe;
         $feedback->palaute = $request->palaute;
+        $feedback->email = $request->email;
         $feedback->save();
 
         return redirect('/')->with('success', 'Palaute tallennettu onnistuneesti!');
