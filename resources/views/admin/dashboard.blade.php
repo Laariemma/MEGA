@@ -1,18 +1,50 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard Admin') }}
-        </h2>
-    </x-slot>
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin sivu</title>
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}"> 
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ route('employee.dashboard') }}">Työntekijä näkymä</a></li>
+                <li><a href="{{ route('admin.feedbacks') }}">Palautteet</a></li>
+                
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Admin sivusto</h2>
         
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __("Olet kirjautunut adminina") }}
-                    <img src=https://img.ilcdn.fi/0GfrkRcaoZYZRMmg74xrP2xf5IE=/full-fit-in/920x0/img-s3.ilcdn.fi/c56b70965a246d258b45c797c171887c52ccb73e7edb701fb7145dd7df7467f2.jpg
-                </div>
-            </div>
-        </div>
-    </div>
-</x-app-layout>
+        @if(session('success'))
+            <p style="color: green;">{{ session('success') }}</p>
+        @endif
+
+        <h3>Saadut palautteet</h3>
+        <table border="1">
+            <tr>
+                <th>Aihe</th>
+                <th>Palaute</th>
+                <th>Toiminnot</th>
+            </tr>
+            @foreach ($feedbacks as $feedback)
+                <tr>
+                    <td>{{ $feedback->aihe }}</td>
+                    <td>{{ $feedback->palaute }}</td>
+                    <td>
+                        <a href="{{ route('admin.feedbacks.edit', $feedback->id) }}">Muokkaa</a>
+                        <form action="{{ route('admin.feedbacks.delete', $feedback->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            <button type="submit" onclick="return confirm('Haluatko varmasti poistaa tämän palautteen?')">Poista</button>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+        </table>
+    </main>
+</body>
+</html>

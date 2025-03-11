@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -21,10 +22,19 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-//Route::get('admin/dashboard',[HomeController::class, 'index']);
-Route::get('admin/dashboard', [HomeController::class, 'index'])->middleware(['auth','admin']);
-Route::get('employee/dashboard', [HomeController::class, 'employee']);
+Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(function () {
 
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard'); 
+    Route::get('/feedbacks', [FeedbackController::class, 'index'])->name('feedbacks');
+    Route::get('/feedbacks/{id}/edit', [FeedbackController::class, 'edit'])->name('feedbacks.edit'); 
+    Route::post('/feedbacks/{id}/update', [FeedbackController::class, 'update'])->name('feedbacks.update'); 
+    Route::post('/feedbacks/{id}/delete', [FeedbackController::class, 'destroy'])->name('feedbacks.delete'); 
+});
 
 Route::get('/', [FeedbackController::class, 'index']);
 Route::post('/submit', [FeedbackController::class, 'store']);
+
+
+Route::get('/employee/dashboard', function () {
+    return view('employee.dashboard');
+})->name('employee.dashboard');
