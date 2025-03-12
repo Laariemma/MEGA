@@ -4,7 +4,7 @@
             {{ __('Työntekijä näkymä') }}
         </h2>
     </x-slot>
-        
+ 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -29,12 +29,31 @@
                         </button>
                     </div>
 
+                    <h1>Palautteet</h1>
 
+                    @foreach ($feedbacks as $feedback)
+                        <!-- Tässä näytetään ne feedbackit, joilla ei vielä ole kategoriaa-->
+                        <div style="background-color: yellow; padding: 10px;">
+                        <h3 style="color: black;">Aihe: {{ $feedback->aihe }}</h3>
+                        <p style="color: black;">Palaute: {{ $feedback->palaute }}</p>
+                        <p style="color: black;">Sähköposti: {{ $feedback->email }}</p>
+
+                            <!-- Alhaalla formi, jolla liitetään kategoria-->
+                            <form action="{{ route('category.assign', $feedback->id) }}" method="POST">
+                                @csrf           <!-- pitää Css:llä muuttaa et näkee noi tekstit paremmin -->
+                                <input type="text" name="category" placeholder="Anna kategoria" required>
+                                <!-- alempikin myöhemmin css muokkaukseen -->
+                                <button style="background-color: white; color: black;" type="submit">Liitä kategoria</button> 
+                            </form>
+                        </div>
+                    @endforeach   
                                         
                     <img src="https://images.cdn.yle.fi/image/upload/c_crop,h_3375,w_6000,x_0,y_365/ar_1.7777777777777777,c_fill,g_faces,h_431,w_767/dpr_2.0/q_auto:eco/f_auto/fl_lossy/v1728481724/39-1360951670687eb4dc90" 
                          alt="Työntekijän kuva" class="rounded-lg shadow-md mx-auto">
 
-                                    
+                         
+
+       
                 </div>
             </div>
         </div>

@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\DashboardController;
-
+use App\Http\Controllers\CategoryController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -31,10 +31,11 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
     Route::post('/feedbacks/{id}/delete', [FeedbackController::class, 'destroy'])->name('feedbacks.delete'); 
 });
 
+Route::get('/employee/dashboard', [FeedbackController::class, 'showDashboard'])->name('employee.dashboard');//tuo palautteet employeee sivulle
 Route::get('/', [FeedbackController::class, 'index']);
 Route::post('/submit', [FeedbackController::class, 'store']);
 
 
-Route::get('/employee/dashboard', function () {
-    return view('employee.dashboard');
-})->name('employee.dashboard');
+
+Route::get('/employee/dashboard', [CategoryController::class, 'index'])->name('employee.dashboard'); // tuo ne tiedot millä ei oo kategoriaa
+Route::post('categories/{feedback_id}', [CategoryController::class, 'assign'])->name('category.assign'); //laittaa sen kategorian
