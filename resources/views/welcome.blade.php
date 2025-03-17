@@ -66,6 +66,14 @@
         </div>
     @endforeach
 
+<a
+    href="{{ route('ukk') }}"
+    class="mt-4 inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+>
+    Katso usein kysytyt kysymykset
+</a>
+
+
 </body>
 
 </html>
