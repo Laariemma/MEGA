@@ -6,6 +6,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -43,3 +45,12 @@ Route::post('/submit', [FeedbackController::class, 'store']);
 
 Route::get('/employee/dashboard', [CategoryController::class, 'index'])->name('employee.dashboard'); // tuo ne tiedot millä ei oo kategoriaa
 Route::post('categories/{feedback_id}', [CategoryController::class, 'assign'])->name('category.assign'); //laittaa sen kategorian
+//kommentointiin tämän alla olevat
+Route::middleware(['auth'])->group(function () {
+    Route::get('/feedbacks', [FeedbackController::class, 'index'])->name('feedbacks.index');
+    Route::get('/feedbacks/{id}', [FeedbackController::class, 'show'])->name('feedbacks.show');
+    
+    Route::post('/feedbacks/{id}/comment', [CommentController::class, 'store'])->name('comments.store');
+});
+Route::get('/admin', [FeedbackController::class, 'index'])->middleware('auth', 'admin')->name('admin.dashboard');
+Route::post('/comments/{id}', [CommentController::class, 'store'])->middleware('auth')->name('comments.store');

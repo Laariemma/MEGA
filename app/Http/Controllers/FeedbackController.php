@@ -39,8 +39,15 @@ class FeedbackController extends Controller
     }
     
     public function index()
-    {
-        $feedbacks = Feedback::all();
-        return view('welcome', compact('feedbacks'));
+{
+    $feedbacks = Feedback::with(['comments.user', 'comments.replies.user'])->get(); // Ladataan palautteet ja kommentit
+
+    if (auth()->check() && auth()->user()->role === 'employee') {
+        return view('employee.dashboard', compact('feedbacks')); // Työntekijälle
+    } elseif (auth()->check() && auth()->user()->role === 'admin') {
+        return view('admin.dashboard', compact('feedbacks')); // Adminille
     }
+
+    return view('welcome', compact('feedbacks')); // Asiakkaalle
+}
 }

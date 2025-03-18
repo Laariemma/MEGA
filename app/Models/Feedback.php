@@ -17,4 +17,8 @@ public function category()
 {
     return $this->hasOne(Category::class); //yhdellä palautteella on yksi kategoria, toimii ehkä "hasMany" myös??
 }
+public function comments()
+{
+    return $this->hasMany(Comment::class);
+}
 }

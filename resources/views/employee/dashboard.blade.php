@@ -53,9 +53,34 @@
                                 <!-- alempikin myöhemmin css muokkaukseen -->
                                 <button style="background-color: white; color: black;" type="submit">Liitä kategoria</button> 
                             </form>
-                        </div>
+
+                              <!-- Kommentit -->
+                              <div class="mt-4 bg-gray-100 p-4 rounded-lg">
+                                <h3 class="text-lg font-semibold">Kommentit:</h3>
+                                @foreach ($feedback->comments as $comment)
+                                    <div class="bg-gray-200 p-3 mt-2 rounded">
+                                        <p><strong>{{ $comment->user->name }}:</strong> {{ $comment->comment }}</p>
+                                        <!-- Vastaukset -->
+                                        @foreach ($comment->replies as $reply)
+                                            <div class="ml-6 bg-gray-300 p-2 rounded mt-2">
+                                                <p><strong>{{ $reply->user->name }}:</strong> {{ $reply->comment }}</p>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endforeach
+                            </div>
+                       
                     @endforeach   
-                                        
+                    </div>
+                     <!-- Kommenttilomake -->
+                     <form method="POST" action="{{ route('comments.store', $feedback->id) }}" class="mt-4">
+                                @csrf
+                                <textarea name="comment" placeholder="Kirjoita kommentti..." required class="w-full p-2 border rounded"></textarea>
+                                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded mt-2">Lisää kommentti</button>
+                            </form>
+                        </div>
+                    
+                    
                     <img src="https://images.cdn.yle.fi/image/upload/c_crop,h_3375,w_6000,x_0,y_365/ar_1.7777777777777777,c_fill,g_faces,h_431,w_767/dpr_2.0/q_auto:eco/f_auto/fl_lossy/v1728481724/39-1360951670687eb4dc90" 
                          alt="Työntekijän kuva" class="rounded-lg shadow-md mx-auto">
 
