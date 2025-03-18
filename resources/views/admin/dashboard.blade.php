@@ -7,11 +7,15 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}"> 
 </head>
 <body>
+                    <a href="{{ url('/') }}" class="text-white hover:text-gray-400">Etusivu</a>
+                    <form method="POST" action="{{ route('logout') }}" class="inline">
+                     @csrf
+                    <button type="submit" class="text-white hover:text-gray-400">Kirjaudu ulos</button>
+                    </form>
     <header>
         <nav>
             <ul>
                 <li><a href="{{ route('employee.dashboard') }}">Työntekijä näkymä</a></li>
-                <li><a href="{{ route('admin.feedbacks') }}">Palautteet</a></li>
                 
             </ul>
         </nav>

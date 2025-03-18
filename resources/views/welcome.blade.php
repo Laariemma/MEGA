@@ -19,7 +19,11 @@
         <div>
             @if (Route::has('login'))
                 @auth
-                    <a href="{{ url('/dashboard') }}" class="text-white hover:text-gray-400">Dashboard</a>
+                    <a href="{{ url('/') }}" class="text-white hover:text-gray-400">Etusivu</a>
+                    <form method="POST" action="{{ route('logout') }}" class="inline">
+                     @csrf
+                    <button type="submit" class="text-white hover:text-gray-400">Kirjaudu ulos</button>
+                    </form>
                 @else
                     <a href="{{ route('login') }}" class="text-white hover:text-gray-400 mr-4">Log in</a>
                     @if (Route::has('register'))
