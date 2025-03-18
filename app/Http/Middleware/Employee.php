@@ -17,7 +17,7 @@ class Employee
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::user()->usertype != 'employee') {
-            return redirect('dashboard');
+            return redirect('/');
         }
 
         return $next($request);
