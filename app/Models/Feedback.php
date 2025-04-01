@@ -18,7 +18,7 @@ class Feedback extends Model
 
     public function comments()
     {
-        return $this->hasOne(Comment::class);
+        return $this->hasMany(Comment::class);
     }
 
    
