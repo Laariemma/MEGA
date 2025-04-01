@@ -16,6 +16,6 @@ class Comment extends Model {
     }
 
     public function replies() {
-        return $this->hasMany(Comment::class, 'parent_id');
+        return $this->hasOne(Comment::class, 'parent_id');
     }
 }

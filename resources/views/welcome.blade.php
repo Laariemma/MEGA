@@ -62,6 +62,22 @@
                 <div class="bg-gray-800 p-4 rounded-lg">
                     <h3 class="text-lg font-bold">{{ $feedback->aihe }}</h3>
                     <p>{{ $feedback->palaute }}</p>
+
+                    <!-- Näytetään vastaukset -->
+                    @if($feedback->answers && $feedback->answers->isNotEmpty())
+                        <div class="mt-4 bg-gray-700 p-4 rounded-lg">
+                            <h4 class="font-semibold text-lg">Vastaukset:</h4>
+                            @foreach ($feedback->answers as $answer)
+                                <div class="mt-2">
+                                    <strong>{{ $answer->employee->name }}:</strong>
+                                    <p>{{ $answer->answer }}</p>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <p class="mt-2 text-gray-400">Ei vastauksia vielä.</p>
+                    @endif
+                
                 </div>
             @endforeach
         </div>

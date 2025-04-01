@@ -7,6 +7,10 @@ use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\AnswerController;
+use App\Models\Feedback;
+use App\Models\Answers;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -54,3 +58,23 @@ Route::middleware(['auth'])->group(function () {
 });
 Route::get('/admin', [FeedbackController::class, 'index'])->middleware('auth', 'admin')->name('admin.dashboard');
 Route::post('/comments/{id}', [CommentController::class, 'store'])->middleware('auth')->name('comments.store');
+
+
+
+
+Route::get('/employee/dashboard', function () {
+    $feedbacks = Feedback::with(['answers', 'comments', 'comments.replies'])->get();
+    return view('employee.dashboard', compact('feedbacks'));
+});
+
+Route::get('/', function () {
+    $feedbacks = Feedback::with(['answers', 'answers.employee'])->get(); // Varmista, että tuodaan myös vastaukset
+    return view('welcome', compact('feedbacks'));
+});
+
+Route::post('/feedback/{feedback}/answers', [AnswerController::class, 'store'])
+    ->name('answers.store')
+    ->middleware(['auth', 'employee']);
+
+  
+    
