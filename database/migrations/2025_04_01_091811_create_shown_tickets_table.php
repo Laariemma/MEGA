@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('_strategy', function (Blueprint $table) {
+        Schema::create('shown_tickets', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("feedback_id");
+            $table->unsignedBigInteger("Answer_id");
             $table->timestamps();
 
-            $table->foreign('feedback_id')->references('id')->on('feedback')->onDelete('cascade');//tää tuo feedbackistä sen id:n
+            $table->foreign('Answer_id')->references('id')->on('Answer')->onDelete('cascade');//tää tuo Answer-taulusta sen id:n
         });
     }
 
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('_strategy');
+        Schema::dropIfExists('shown_tickets');
     }
 };

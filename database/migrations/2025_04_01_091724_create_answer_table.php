@@ -11,13 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('_pipeline', function (Blueprint $table) {
+        Schema::create('answer', function (Blueprint $table) {
             $table->id();
-            $table->string('Kiireellisyys');
-            $table->unsignedBigInteger('feedback_id');
+            $table->text('answer');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger("feedback_id");
             $table->timestamps();
 
+
             $table->foreign('feedback_id')->references('id')->on('feedback')->onDelete('cascade');//tää tuo feedbackistä sen id:n
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -26,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('_pipeline');
+        Schema::dropIfExists('answer');
     }
 };
