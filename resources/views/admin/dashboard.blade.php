@@ -25,7 +25,7 @@
                                 <p class="text-white">Sähköposti: {{ $feedback->email }}</p>
 
                                 <!-- Näytä työntekijän kommentit -->
-                                @if ($feedback->comments->count() > 0)
+                                @if ($feedback->comments && $feedback->comments->isNotEmpty())
                                     <div class="mt-4 p-3 bg-gray-600 rounded-lg">
                                         <h4 class="text-white font-semibold">Kommentit:</h4>
                                         @foreach ($feedback->comments as $comment)
