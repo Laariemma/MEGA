@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger("Answer_id");
             $table->timestamps();
 
-            $table->foreign('Answer_id')->references('id')->on('Answer')->onDelete('cascade');//tää tuo Answer-taulusta sen id:n
+            $table->foreign('Answer_id')->references('id')->on('Answers')->onDelete('cascade');//tää tuo Answer-taulusta sen id:n
         });
     }
 
