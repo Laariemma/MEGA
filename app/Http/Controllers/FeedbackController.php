@@ -5,37 +5,38 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Feedback;
 use App\Models\Category;
+use App\Models\ClosedTicket;
 
 class FeedbackController extends Controller
 {
-
     public function showDashboard()
     {
-        
-        $feedbacks = Feedback::all(); // Hakee kaikki palautteet ja lähettää ne näkyville
-        
-        
-        return view('employee.dashboard', compact('feedbacks'));// Tuo palautteet sinne "employee/dashboard" sivulle
-    }
+        // Hakee kaikki avoimet tiketit
+        $feedbacks = Feedback::where('status', 'open')->get(); // Avoimet tiketit
 
+        // Hakee kaikki suljetut tiketit
+        $closedTickets = ClosedTicket::with('feedback')->get(); // Suljetut tiketit ja niiden palautteet
+
+        return view('employee.dashboard', compact('feedbacks', 'closedTickets')); // Lähetetään molemmat muuttujat näkymään
+    }
+    
     public function store(Request $request)
     {
-        // 
-        $validated = $request->validate([           //vaihettu validate termi, että tuo vain noi tietyt tiedot 
+        // Validointi
+        $validated = $request->validate([
             'aihe' => 'required|string|max:255',
             'palaute' => 'required|string',
             'email' => 'required|email',
         ]);
 
-    
-    
+        // Uuden palautteen luominen
         $feedback = new Feedback;
-        $feedback->aihe = $validated['aihe'];       //eli validated vaihtu tähän niin saa tarvitut tiedot
-        $feedback->palaute = $validated['palaute']; 
-        $feedback->email = $validated['email']; 
+        $feedback->aihe = $validated['aihe'];
+        $feedback->palaute = $validated['palaute'];
+        $feedback->email = $validated['email'];
         $feedback->save();
 
-        return redirect('/')->with('success', 'Palaute tallennettu onnistuneesti!'); 
+        return redirect('/')->with('success', 'Palaute tallennettu onnistuneesti!');
     }
     
     public function index()

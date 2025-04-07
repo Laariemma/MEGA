@@ -10,6 +10,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\AnswerController;
 use App\Models\Feedback;
 use App\Models\Answers;
+use App\Http\Controllers\ClosedTicketController;
 
 
 Route::get('/', function () {
@@ -60,6 +61,8 @@ Route::get('/admin', [FeedbackController::class, 'index'])->middleware('auth', '
 Route::post('/comments/{id}', [CommentController::class, 'store'])->middleware('auth')->name('comments.store');
 
 
+Route::get('/feedbacks', [FeedbackController::class, 'showDashboard'])->name('feedbacks.show');
+
 
 
 Route::get('/employee/dashboard', function () {
@@ -76,5 +79,9 @@ Route::post('/feedback/{feedback}/answers', [AnswerController::class, 'store'])
     ->name('answers.store')
     ->middleware(['auth', 'employee']);
 
-  
+    Route::post('/comments/{id}', [CommentController::class, 'store'])
+    ->middleware('auth')->name('comments.store');
     
+    Route::post('/sulje-tiketti/{id}', [ClosedTicketController::class, 'closeTicket'])->name('ticket.close');
+
+    Route::get('/closed-tickets', [ClosedTicketController::class, 'showClosedTickets']); // suljetut tiketit
