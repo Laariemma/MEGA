@@ -88,5 +88,26 @@
         </a>
     </div>
 
+    <!-- KPI mittari, tästä puuttuu -->
+    <div id="kpi-container" class="bg-gray-800 text-white p-4 rounded-lg mb-4">
+    <h2 class="text-xl font-bold mb-2">Palautteiden määrä</h2>
+    <div id="kpi-value" class="text-4xl font-semibold">Ladataan...</div>
+</div>
+
+<script>
+    async function fetchKpi() {
+        try {
+            const response = await fetch('/kpi');
+            const data = await response.json();
+            document.getElementById('kpi-value').textContent = data.value;
+        } catch (error) {
+            document.getElementById('kpi-value').textContent = 'Virhe datassa';
+        }
+    }
+
+    // Hae data sivun latautuessa
+    fetchKpi();
+</script>
+
 </body>
 </html>

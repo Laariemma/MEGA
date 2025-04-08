@@ -12,4 +12,7 @@ class DashboardController extends Controller
     
         return view('admin.dashboard', compact('feedbacks'));
     }
+
+    use App\Models\Feedback;
+
 }

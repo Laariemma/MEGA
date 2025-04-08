@@ -39,7 +39,8 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
     Route::get('/feedbacks', [FeedbackController::class, 'index'])->name('feedbacks');
     Route::get('/feedbacks/{id}/edit', [FeedbackController::class, 'edit'])->name('feedbacks.edit'); 
     Route::post('/feedbacks/{id}/update', [FeedbackController::class, 'update'])->name('feedbacks.update'); 
-    Route::post('/feedbacks/{id}/delete', [FeedbackController::class, 'destroy'])->name('feedbacks.delete'); 
+    Route::post('/feedbacks/{id}/delete', [FeedbackController::class, 'destroy'])->name('feedbacks.delete');
+ 
 });
 
 Route::get('/employee/dashboard', [FeedbackController::class, 'showDashboard'])->name('employee.dashboard');//tuo palautteet employeee sivulle
@@ -69,6 +70,7 @@ Route::get('/employee/dashboard', function () {
     $feedbacks = Feedback::with(['answers', 'comments', 'comments.replies'])->get();
     return view('employee.dashboard', compact('feedbacks'));
 });
+
 
 Route::get('/', function () {
     $feedbacks = Feedback::with(['answers', 'answers.employee'])->get(); // Varmista, että tuodaan myös vastaukset

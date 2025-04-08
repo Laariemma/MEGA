@@ -29,4 +29,6 @@ public function showClosedTickets()
     $closedTickets = ClosedTicket::with('feedback')->orderBy('created_at', 'desc')->get();
     return view('employee.dashboard', compact('closedTickets'));
 }
+
+
 }
