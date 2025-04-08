@@ -12,6 +12,11 @@ use App\Models\Feedback;
 use App\Models\Answers;
 use App\Http\Controllers\ClosedTicketController;
 
+//KPI mittari
+Route::get('/feedback-count', function () {
+    $count = Feedback::count();
+    return response()->json(['count' => $count]);
+});
 
 Route::get('/', function () {
     return view('welcome');

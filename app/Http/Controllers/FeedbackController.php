@@ -52,4 +52,6 @@ class FeedbackController extends Controller
     return view('welcome', compact('feedbacks')); // Asiakkaalle
 }
 
+
+
 }

@@ -88,26 +88,54 @@
         </a>
     </div>
 
-    <!-- KPI mittari, tästä puuttuu -->
-    <div id="kpi-container" class="bg-gray-800 text-white p-4 rounded-lg mb-4">
-    <h2 class="text-xl font-bold mb-2">Palautteiden määrä</h2>
-    <div id="kpi-value" class="text-4xl font-semibold">Ladataan...</div>
-</div>
-
-<script>
-    async function fetchKpi() {
-        try {
-            const response = await fetch('/kpi');
-            const data = await response.json();
-            document.getElementById('kpi-value').textContent = data.value;
-        } catch (error) {
-            document.getElementById('kpi-value').textContent = 'Virhe datassa';
-        }
+    <!-- KPI MITTARI-->
+    <style>
+    #kpi-box {
+        position: fixed;
+        top: 50%;
+        right: 50px;
+        transform: translateY(-50%);
+        background-color: #1e293b; 
+        color: white;
+        border-radius: 12px;
+        padding: 20px 30px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        text-align: center;
+        width: 180px;
+        z-index: 1000;
+        font-family: sans-serif;
     }
 
-    // Hae data sivun latautuessa
-    fetchKpi();
+    #kpi-box h3 {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    #feedback-count {
+        font-size: 28px;
+        font-weight: bold;
+    }
+</style>
+ 
+    <div id="kpi-box" >
+    <h3 >Tulleita palautteita yhteensä:</h3>
+    <p  id="feedback-count">Ladataan...</p>
+    </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        fetch('/feedback-count')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('feedback-count').innerText = data.count;
+            })
+            .catch(error => {
+                console.error('Virhe haettaessa dataa:', error);
+                document.getElementById('feedback-count').innerText = 'Virhe';
+            });
+    });
 </script>
+
 
 </body>
 </html>
