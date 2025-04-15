@@ -14,9 +14,18 @@ class AddColumnsToAnswersTable extends Migration
     public function up()
     {
         Schema::table('answers', function (Blueprint $table) {
-            $table->foreignId('feedback_id')->constrained()->onDelete('cascade');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->text('answer');
+            // Only add columns if they don't already exist
+            if (!Schema::hasColumn('answers', 'feedback_id')) {
+                $table->foreignId('feedback_id')->constrained()->onDelete('cascade');
+            }
+    
+            if (!Schema::hasColumn('answers', 'user_id')) {
+                $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            }
+    
+            if (!Schema::hasColumn('answers', 'answer')) {
+                $table->text('answer');
+            }
         });
     }
 
