@@ -14,11 +14,17 @@ class AnswerController extends Controller
         'answers' => 'required|string',
     ]);
 
-    $answer = new Answers();  // Käytä 'Answer' ja ei 'Answers'
+
+    $answer = new Answers();  
     $answer->feedback_id = $feedback_id;
     $answer->user_id = auth()->user()->id;
-    $answer->answer = $request->answers;  // Käytä oikein kentän nimeä
+    $answer->answer = $request->answers;  
     $answer->save();
+
+    
+    $feedback = Feedback::findOrFail($feedback_id);
+    $feedback->status = 'answered';
+    $feedback->save();
 
     return redirect()->back()->with('success', 'Vastaus tallennettu onnistuneesti.');
 }

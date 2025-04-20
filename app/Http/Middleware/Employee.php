@@ -16,7 +16,9 @@ class Employee
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->usertype != 'employee') {
+        $user = Auth::user();
+
+        if (!$user || !in_array($user->usertype, ['employee', 'admin'])) {
             return redirect('/');
         }
 

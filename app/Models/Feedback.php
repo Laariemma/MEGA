@@ -9,7 +9,7 @@ class Feedback extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['aihe', 'palaute', 'email'];
+    protected $fillable = ['aihe', 'palaute', 'email', 'status'];
 
     public function answers()
     {
