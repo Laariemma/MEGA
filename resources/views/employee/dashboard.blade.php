@@ -85,7 +85,9 @@
             <h3 class="text-white font-semibold">Aihe: {{ $ticket->aihe }}</h3>
             <p class="text-white">Palaute: {{ $ticket->palaute }}</p>
             <p class="text-white">Sähköposti: {{ $ticket->email }}</p>
-
+            @foreach ($ticket->answers as $answer)
+                <p class="text-green-200">📬 <strong>{{ $answer->employee->name ?? 'Tuntematon' }}:</strong> {{ $answer->answer }}</p>
+            @endforeach
             <!-- Kommentit -->
             @if ($ticket->comments->count())
                 <div class="mt-4 p-3 bg-gray-600 rounded-lg">
