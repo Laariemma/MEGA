@@ -1,8 +1,9 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Admin Dashboard') }}
-        </h2>
+            {{ __('Ylläpidon näkymä') }}
+            </h2>
+        
     </x-slot>
 
    <!-- Vastatut tiketit -->
@@ -10,7 +11,7 @@
 
 @if ($answeredTickets->count())
     @foreach ($answeredTickets as $ticket)
-        <div class="bg-green-700 p-4 mb-6 rounded-lg">
+    <div class="bg-[#075E54] p-4 mb-6 rounded-lg">
             <h3 class="text-white font-semibold">Aihe: {{ $ticket->aihe }}</h3>
             <p class="text-white">Palaute: {{ $ticket->palaute }}</p>
             <p class="text-white">Sähköposti: {{ $ticket->email }}</p>

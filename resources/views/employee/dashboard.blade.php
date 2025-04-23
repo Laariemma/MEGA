@@ -3,10 +3,9 @@
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Työntekijä näkymä') }}
         </h2>
-        <a href="{{ url('/') }}" class="text-white hover:text-gray-400">Etusivu</a>
+      
         <form method="POST" action="{{ route('logout') }}" class="inline">
             @csrf
-            <button type="submit" class="text-white hover:text-gray-400">Kirjaudu ulos</button>
         </form>
     </x-slot>
 

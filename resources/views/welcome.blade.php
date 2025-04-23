@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -19,15 +20,17 @@
         <div>
             @if (Route::has('login'))
                 @auth
-                    <a href="{{ url('/') }}" class="text-white hover:text-gray-400">Etusivu</a>
+                    
+                    <a href="{{ url('/admin/dashboard') }}" class="text-white hover:text-gray-400">Ylläpito</a>
+                    <a href="{{ url('/employee/dashboard') }}" class="text-white hover:text-gray-400">Työntekijä</a>
                     <form method="POST" action="{{ route('logout') }}" class="inline">
                      @csrf
                     <button type="submit" class="text-white hover:text-gray-400">Kirjaudu ulos</button>
                     </form>
                 @else
-                    <a href="{{ route('login') }}" class="text-white hover:text-gray-400 mr-4">Log in</a>
+                    <a href="{{ route('login') }}" class="text-white hover:text-gray-400 mr-4">Kirjaudu sisään</a>
                     @if (Route::has('register'))
-                        <a href="{{ route('register') }}" class="text-white hover:text-gray-400">Register</a>
+                        <a href="{{ route('register') }}" class="text-white hover:text-gray-400">Rekisteröidy</a>
                     @endif
                 @endauth
             @endif
