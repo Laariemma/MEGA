@@ -71,16 +71,30 @@
 
     <!-- Ehdotetut tiketit -->
     @if ($suggestions->count())
-        @foreach ($suggestions as $suggestion)
-            <div class="bg-white dark:bg-gray-800 p-4 mb-4 rounded shadow">
-                <h3 class="text-lg font-semibold">Aihe: {{ $suggestion->feedback->aihe }}</h3>
-                <p>Palaute: {{ $suggestion->feedback->palaute }}</p>
-                
-            </div>
-        @endforeach
-    @else
-        <p>Ei ehdotettuja tikettejä.</p>
-    @endif
+    @foreach ($suggestions as $suggestion)
+        <div class="bg-white dark:bg-gray-800 p-4 mb-4 rounded shadow">
+            <h3 class="text-lg font-semibold">Aihe: {{ $suggestion->feedback->aihe }}</h3>
+            <p>Palaute: {{ $suggestion->feedback->palaute }}</p>
+            
+            <!-- Näytetään vastaukset -->
+            @if($suggestion->feedback->answers && $suggestion->feedback->answers->isNotEmpty())
+                <div class="mt-4 bg-gray-100 dark:bg-gray-700 p-4 rounded">
+                    <h4 class="font-semibold">Vastaukset:</h4>
+                    @foreach ($suggestion->feedback->answers as $answer)
+                        <div class="mt-2">
+                            <strong>{{ $answer->employee->name ?? 'Tuntematon' }}:</strong>
+                            <p>{{ $answer->answer }}</p>
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                <p class="mt-2 text-gray-500">Ei vastauksia vielä.</p>
+            @endif
+        </div>
+    @endforeach
+@else
+    <p>Ei ehdotettuja tikettejä.</p>
+@endif
 </div>
 
 </div>
