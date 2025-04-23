@@ -10,6 +10,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\ClosedTicketController;
 use App\Models\Feedback;
+use App\Http\Controllers\UKKController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +22,9 @@ use App\Models\Feedback;
 Route::get('/', [FeedbackController::class, 'index']);
 
 // FAQ
-Route::get('/ukk', fn() => view('ukk'))->name('ukk');
+
+Route::get('/ukk', [UKKController::class, 'index'])->name('ukk');
+
 
 // KPI 
 Route::get('/feedback-count', function () {
@@ -63,6 +66,8 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
     Route::get('/feedbacks/{id}/edit', [FeedbackController::class, 'edit'])->name('feedbacks.edit'); 
     Route::post('/feedbacks/{id}/update', [FeedbackController::class, 'update'])->name('feedbacks.update'); 
     Route::post('/feedbacks/{id}/delete', [FeedbackController::class, 'destroy'])->name('feedbacks.delete');
+    Route::post('/assign-category/{feedback_id}', [CategoryController::class, 'assign'])->name('category.assign');
+
 });
 
 /*

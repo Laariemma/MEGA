@@ -67,6 +67,22 @@
                     Lähetä kommentti
                 </button>
             </form>
+
+            <!-- Kategorian valinta -->
+            <form action="{{ route('category.assign', ['feedback_id' => $suggestion->feedback->id]) }}" method="POST" class="mt-4">
+                @csrf
+                <label for="category" class="block text-white mb-2">Valitse kategoria:</label>
+                <select name="category" id="category" class="w-full p-2 rounded-lg">
+                    <option value="Kategoria 1" {{ $suggestion->feedback->category?->name === 'Kategoria 1' ? 'selected' : '' }}>Kategoria 1</option>
+                    <option value="Kategoria 2" {{ $suggestion->feedback->category?->name === 'Kategoria 2' ? 'selected' : '' }}>Kategoria 2</option>
+                    <option value="Kategoria 3" {{ $suggestion->feedback->category?->name === 'Kategoria 3' ? 'selected' : '' }}>Kategoria 3</option>
+                </select>
+                <button type="submit" class="mt-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-700">
+                    Tallenna kategoria
+                </button>
+            </form>
+
+
         </div>
     @endforeach
 @else

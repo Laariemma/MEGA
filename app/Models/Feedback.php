@@ -21,6 +21,15 @@ class Feedback extends Model
         return $this->hasMany(Comment::class);
     }
 
-   
+    public function category()
+    {
+        return $this->hasOne(Category::class);
+    }
+
+    public function suggestion()
+    {
+        return $this->hasOne(Suggestion::class);
+    }
+
 
 }

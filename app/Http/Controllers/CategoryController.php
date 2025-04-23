@@ -11,7 +11,7 @@ class CategoryController extends Controller
     public function index()
     {
         $feedbacks = Feedback::doesntHave('category')->get(); 
-        return view('employee.dashboard', compact('feedbacks')); //Näyttää palautteet nyt siellä employee sivulla
+        return view('admin.dashboard', compact('feedbacks')); //Näyttää palautteet nyt siellä employee sivulla
     }
 
     public function assign(Request $request, $feedback_id)
@@ -20,16 +20,23 @@ class CategoryController extends Controller
             'category' => 'required|string|max:255',
         ]);
 
-        
-        $feedback = Feedback::findOrFail($feedback_id); // Hakee palautteen, johon se kategoria liitetään
+        // Tarkistetaan, löytyykö jo kategoria tälle palautteelle
+        $existingCategory = Category::where('feedback_id', $feedback_id)->first();
 
-        // Luo uuden kategorian ja liittää sen palautteeseen. Pitää tehä tästä sit se dropdown valikko?
-        $category = new Category();
-        $category->name = $validated['category'];
-        $category->feedback_id = $feedback->id;  // Liittää nyt sen kategorian palautteeseen ja menee category tauluun
-        $category->save();
+        if ($existingCategory) {
+            // Päivitetään olemassa olevan kategorian nimi
+            $existingCategory->name = $validated['category'];
+            $existingCategory->save();
+        } else {
+            // Luodaan uusi kategoria, jos sitä ei vielä ole
+            $category = new Category();
+            $category->name = $validated['category'];
+            $category->feedback_id = $feedback_id;
+            $category->save();
+        }
 
-        
-        return redirect()->route('employee.dashboard')->with('success', 'Kategoria liitetty palautteelle onnistuneesti!');
+        return redirect()->route('admin.dashboard')->with('success', 'Kategoria liitetty palautteelle onnistuneesti!');
     }
+
+
 }

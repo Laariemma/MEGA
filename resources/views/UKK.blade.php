@@ -49,19 +49,40 @@
 
     <!-- UKK-sisältö -->
     <div class="container mx-auto max-w-4xl p-6">
-    <h1 class="text-3xl font-semibold mb-6">Usein kysytyt kysymykset</h1>
+    <h1 class="text-3xl font-semibold mb-6">Usein kysytyt kysymykset:</h1>
 
-    <div class="space-y-4">
-        <div>
-            <p class="font-semibold text-xl">Kysymys 1:</p>
-            <p id="ukk1" class="hidden mt-2">Vastaus</p>
-        </div>
+    <!-- Kategorian valinta -->
+    <form method="GET" action="{{ route('ukk') }}" class="mb-4">
+        <label for="category_name" class="block text-white mb-2">Valitse kategoria:</label>
+        <select name="category_name" id="category_name" class="w-full p-2 rounded-lg">
+            <option value="">Kaikki</option>
+            @foreach ($categories as $category)
+                <option value="{{ $category->name }}" {{ request('category_name') == $category->name ? 'selected' : '' }}>
+                    {{ $category->name }}
+                </option>
+            @endforeach
+        </select>
+        <button type="submit" class="mt-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-700">
+            Suodata
+        </button>
+    </form>
 
-        <div>
-            <p class="font-semibold text-xl">Kysymys 2:</p>
-            <p id="ukk2" class="hidden mt-2">Vastaus</p>
-        </div>
-    </div>
+
+
+    <!-- Ehdotetut tiketit -->
+    @if ($suggestions->count())
+        @foreach ($suggestions as $suggestion)
+            <div class="bg-white dark:bg-gray-800 p-4 mb-4 rounded shadow">
+                <h3 class="text-lg font-semibold">Aihe: {{ $suggestion->feedback->aihe }}</h3>
+                <p>Palaute: {{ $suggestion->feedback->palaute }}</p>
+                
+            </div>
+        @endforeach
+    @else
+        <p>Ei ehdotettuja tikettejä.</p>
+    @endif
+</div>
+
 </div>
 
 
