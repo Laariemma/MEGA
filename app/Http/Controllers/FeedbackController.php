@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Feedback;
 use App\Models\ClosedTicket;
 use App\Models\Suggestion;
+use App\Models\Strategy;
+use Illuminate\Http\RedirectResponse;
 
 class FeedbackController extends Controller
 {
@@ -78,4 +80,21 @@ class FeedbackController extends Controller
         // Palautetaan viesti käyttäjälle
         return redirect()->back()->with('status', 'Palaute lähetetty adminille ehdotuksena!');
     }
+    public function moveToStrategies($id)
+{
+    // Tarkista löytyykö Suggestion tällä feedback_id:llä
+    $suggestion = Suggestion::where('feedback_id', $id)->first();
+
+    if ($suggestion) {
+        // Luo uusi Strategy
+        Strategy::create(['feedback_id' => $id]);
+
+        // Poista suggestion, koska se on nyt strategiassa
+        $suggestion->delete();
+
+        return redirect()->back()->with('success', 'Tiketti siirretty strategioihin.');
+    }
+
+    return redirect()->back()->with('error', 'Tikettiä ei löytynyt ehdotuksista.');
+}
 }

@@ -67,7 +67,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
     Route::post('/feedbacks/{id}/update', [FeedbackController::class, 'update'])->name('feedbacks.update'); 
     Route::post('/feedbacks/{id}/delete', [FeedbackController::class, 'destroy'])->name('feedbacks.delete');
     Route::post('/assign-category/{feedback_id}', [CategoryController::class, 'assign'])->name('category.assign');
-
+    Route::post('/feedback/{id}/move-to-strategies', [FeedbackController::class, 'moveToStrategies'])->name('feedback.moveToStrategies');
 });
 
 /*

@@ -83,7 +83,13 @@
                 </button>
             </form>
 
-
+<!-- Tallenna strategiaksi -nappi -->
+<form action="{{ route('admin.feedback.moveToStrategies', ['id' => $suggestion->feedback->id]) }}" method="POST" class="mt-2">
+    @csrf
+    <button type="submit" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-800">
+        Tallenna strategiaan
+    </button>
+</form>
         </div>
     @endforeach
 @else

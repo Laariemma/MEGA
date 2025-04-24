@@ -8,5 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Strategy extends Model
 {
-    //
+    use HasFactory;
+
+    protected $fillable = ['feedback_id'];
 }
