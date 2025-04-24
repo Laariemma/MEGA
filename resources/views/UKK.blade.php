@@ -15,24 +15,24 @@
 
     <!-- Navigaatio -->
     @if (Route::has('login'))
-        <nav class="-mx-3 flex flex-1 justify-end">
+        <nav class=" flex flex-1 justify-end">
             <a href="http://127.0.0.1:8000/" class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
                 Etusivu
             </a>
             
             @auth
                 <a
-                    href="{{ url('/dashboard') }}"
+                    href="{{ url('/employee/dashboard') }}"
                     class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                 >
-                    Dashboard
+                    Työntekijä
                 </a>
             @else
                 <a
                     href="{{ route('login') }}"
                     class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                 >
-                    Log in
+                    Kirjaudu
                 </a>
 
                 @if (Route::has('register'))
@@ -40,7 +40,7 @@
                         href="{{ route('register') }}"
                         class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                     >
-                        Register
+                        Rekisteröidy
                     </a>
                 @endif
             @endauth
