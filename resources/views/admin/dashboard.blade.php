@@ -55,6 +55,13 @@
             <p class="text-white">Palaute: {{ $suggestion->feedback->palaute }}</p>
             <p class="text-white">Sähköposti: {{ $suggestion->feedback->email }}</p>
 
+            <!-- Vastaukset -->
+            @if ($suggestion->feedback->answers->count())
+                @foreach ($suggestion->feedback->answers as $answer)
+                    <p class="text-green-200">📬 <strong>{{ $answer->employee->name ?? 'Tuntematon' }}:</strong> {{ $answer->answer }}</p>
+                @endforeach
+            @endif
+            
             <!-- Kommentit -->
             @foreach ($suggestion->feedback->comments as $comment)
                 <p class="text-gray-300">💬 <strong>{{ $comment->user->name }}:</strong> {{ $comment->comment }}</p>

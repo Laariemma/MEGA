@@ -87,6 +87,14 @@
             @foreach ($ticket->answers as $answer)
                 <p class="text-green-200">📬 <strong>{{ $answer->employee->name ?? 'Tuntematon' }}:</strong> {{ $answer->answer }}</p>
             @endforeach
+
+            <form action="{{ route('feedback.suggest', ['id' => $ticket->id]) }}" method="POST" class="inline mt-4">
+                @csrf
+                <button type="submit" class="mt-2 px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-700">
+                    Siirrä ehdotuksena adminille
+                </button>
+            </form>
+
             <!-- Kommentit -->
             @if ($ticket->comments->count())
                 <div class="mt-4 p-3 bg-gray-600 rounded-lg">
