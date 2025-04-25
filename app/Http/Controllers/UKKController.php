@@ -11,29 +11,32 @@ use Illuminate\Http\Request;
 class UKKController extends Controller 
 {    
     public function index(Request $request)
-    {
-        // Hakee kaikki uniikit kategoriat dropdown-valikkoa varten
-        $categories = Category::distinct()->get(['name']);
+{
+    // Hakee kaikki uniikit kategoriat dropdown-valikkoa varten
+    $categories = Category::distinct()->get(['name']);
 
-        // Jos kategoria on valittu, suodatetaan sen mukaan
-        if ($request->has('category_name') && $request->category_name != '') {
-            // Haetaan ehdotetut tiketit, jotka liittyvät valittuun kategoriaan
-            $suggestions = Suggestion::with('feedback.answers.employee') // Eager load answers ja employee
+    $suggestions = collect(); // Tyhjä kokoelma oletuksena
+
+    if ($request->has('category_name') && $request->category_name !== '') {
+        if ($request->category_name === 'Kaikki') {
+            // Näytetään vain ne joilla on kategoria
+            $suggestions = Suggestion::with('feedback.answers.employee')
+                ->whereHas('feedback.category') // Vain ne joilla on kategoria
+                ->get();
+        } else {
+            // Suodatetaan valitun kategorian mukaan
+            $suggestions = Suggestion::with('feedback.answers.employee')
                 ->whereHas('feedback', function ($query) use ($request) {
                     $query->whereHas('category', function ($categoryQuery) use ($request) {
                         $categoryQuery->where('name', $request->category_name);
                     });
                 })
                 ->get();
-        } else {
-            // Jos ei valittu kategoriaa, näytetään kaikki ehdotukset
-            $suggestions = Suggestion::with('feedback.answers.employee')->get(); // Eager load answers ja employee myös tässä
         }
-
-        // Lähetetään muuttujat näkymään
-        return view('ukk', compact('suggestions', 'categories'));
     }
 
+    return view('ukk', compact('suggestions', 'categories'));
+}
 
 
 }

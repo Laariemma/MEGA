@@ -52,17 +52,18 @@
     <h1 class="text-3xl font-semibold mb-6">Usein kysytyt kysymykset:</h1>
 
     <!-- Kategorian valinta -->
-    <form method="GET" action="{{ route('ukk') }}" class="mb-4">
-        <label for="category_name" class="block text-white mb-2">Valitse kategoria:</label>
+    <form method="GET" action="{{ route('ukk') }}" class="mb-6">
+        <label for="category_name" class="block mb-2 text-white">Valitse kategoria:</label>
         <select name="category_name" id="category_name" class="w-full p-2 rounded-lg">
-            <option value="">Kaikki</option>
+            <option value="">Valitse kategoria</option>
+            <option value="Kaikki" {{ request('category_name') == 'Kaikki' ? 'selected' : '' }}>Kaikki</option>
             @foreach ($categories as $category)
                 <option value="{{ $category->name }}" {{ request('category_name') == $category->name ? 'selected' : '' }}>
                     {{ $category->name }}
                 </option>
             @endforeach
         </select>
-        <button type="submit" class="mt-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-700">
+        <button type="submit" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">
             Suodata
         </button>
     </form>
@@ -70,13 +71,12 @@
 
 
     <!-- Ehdotetut tiketit -->
-    @if ($suggestions->count())
+    @if (request()->has('category_name') && $suggestions->count())
     @foreach ($suggestions as $suggestion)
         <div class="bg-white dark:bg-gray-800 p-4 mb-4 rounded shadow">
             <h3 class="text-lg font-semibold">Aihe: {{ $suggestion->feedback->aihe }}</h3>
             <p>Palaute: {{ $suggestion->feedback->palaute }}</p>
-            
-            <!-- Näytetään vastaukset -->
+
             @if($suggestion->feedback->answers && $suggestion->feedback->answers->isNotEmpty())
                 <div class="mt-4 bg-gray-100 dark:bg-gray-700 p-4 rounded">
                     <h4 class="font-semibold">Vastaukset:</h4>
@@ -92,8 +92,8 @@
             @endif
         </div>
     @endforeach
-@else
-    <p>Ei ehdotettuja tikettejä.</p>
+@elseif(request()->has('category_name'))
+    <p>Ei ehdotettuja tikettejä tälle kategorialle.</p>
 @endif
 </div>
 
