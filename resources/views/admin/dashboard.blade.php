@@ -1,105 +1,92 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Ylläpidon näkymä') }}
-            </h2>
-        
-    </x-slot>
-
-   <!-- Vastatut tiketit -->
-<h2 class="text-2xl font-bold text-white mt-10 mb-4">Vastatut tiketit</h2>
-
+<x-slot name="header">
+<h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+{{ __('Ylläpidon näkymä') }}
+</h2>
+</x-slot>
+<!-- Vastatut tiketit -->
+<h2 class="text-2xl font-bold text-black mt-10 mb-4">Vastatut tiketit</h2>
 @if ($answeredTickets->count())
-    @foreach ($answeredTickets as $ticket)
-    <div class="bg-[#075E54] p-4 mb-6 rounded-lg">
-            <h3 class="text-white font-semibold">Aihe: {{ $ticket->aihe }}</h3>
-            <p class="text-white">Palaute: {{ $ticket->palaute }}</p>
-            <p class="text-white">Sähköposti: {{ $ticket->email }}</p>
-
-            <!-- Vastaukset -->
-            @foreach ($ticket->answers as $answer)
-                <p class="text-green-200">📬 <strong>{{ $answer->employee->name ?? 'Tuntematon' }}:</strong> {{ $answer->answer }}</p>
-            @endforeach
-
-            <!-- Kommentit -->
-            @if ($ticket->comments->count())
-                <div class="mt-4 p-3 bg-green-600 rounded-lg">
-                    <h4 class="text-white font-semibold">Kommentit:</h4>
-                    @foreach ($ticket->comments as $comment)
-                        <p class="text-gray-300">💬 <strong>{{ $comment->user->name }}:</strong> {{ $comment->comment }}</p>
-                    @endforeach
-                </div>
-            @endif
-
-            <!-- Kommentointi -->
-            <form action="{{ route('comments.store', ['id' => $ticket->id]) }}" method="POST" class="mt-4">
-                @csrf
-                <textarea name="comment" rows="2" class="w-full p-2 rounded-lg" placeholder="Lisää kommentti"></textarea>
-                <button type="submit" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700">
-                    Lähetä kommentti
-                </button>
-            </form>
-        </div>
-    @endforeach
-@else
-    <p class="text-gray-500">Ei vastattuja tikettejä.</p>
+@foreach ($answeredTickets as $ticket)
+<div class="bg-[#075E54] p-4 mb-6 rounded-lg">
+<h3 class="text-white font-semibold">Aihe: {{ $ticket->aihe }}</h3>
+<p class="text-white">Palaute: {{ $ticket->palaute }}</p>
+<p class="text-white">Sähköposti: {{ $ticket->email }}</p>
+<!-- Vastaukset -->
+@foreach ($ticket->answers as $answer)
+<p class="text-green-200">📬 <strong>{{ $answer->employee->name ?? 'Tuntematon' }}:</strong> {{ $answer->answer }}</p>
+@endforeach
+<!-- Kommentit -->
+@if ($ticket->comments->count())
+<div class="mt-4 p-3 bg-green-600 rounded-lg">
+<h4 class="text-white font-semibold">Kommentit:</h4>
+@foreach ($ticket->comments as $comment)
+<p class="text-gray-300">💬 <strong>{{ $comment->user->name }}:</strong> {{ $comment->comment }}</p>
+@endforeach
+</div>
 @endif
-
-    <!-- Ehdotukset -->
-    <h2 class="text-2xl font-bold text-white mt-10 mb-4">Ehdotetut tiketit</h2>
-
+<!-- Kommentointi -->
+<form action="{{ route('comments.store', ['id' => $ticket->id]) }}" method="POST" class="mt-4">
+@csrf
+<textarea name="comment" rows="2" class="w-full p-2 rounded-lg" placeholder="Lisää kommentti"></textarea>
+<button type="submit" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700">
+Lähetä kommentti
+</button>
+</form>
+</div>
+@endforeach
+@else
+<p class="text-gray-500">Ei vastattuja tikettejä.</p>
+@endif
+<!-- Ehdotukset -->
+<h2 class="text-2xl font-bold text-black mt-10 mb-4">Ehdotetut tiketit</h2>
 @if ($suggestions->count())
-    @foreach ($suggestions as $suggestion)
-        <div class="bg-gray-700 p-4 mb-6 rounded-lg">
-            <h3 class="text-white font-semibold">Aihe: {{ $suggestion->feedback->aihe }}</h3>
-            <p class="text-white">Palaute: {{ $suggestion->feedback->palaute }}</p>
-            <p class="text-white">Sähköposti: {{ $suggestion->feedback->email }}</p>
-
-            <!-- Vastaukset -->
-            @if ($suggestion->feedback->answers->count())
-                @foreach ($suggestion->feedback->answers as $answer)
-                    <p class="text-green-200">📬 <strong>{{ $answer->employee->name ?? 'Tuntematon' }}:</strong> {{ $answer->answer }}</p>
-                @endforeach
-            @endif
-            
-            <!-- Kommentit -->
-            @foreach ($suggestion->feedback->comments as $comment)
-                <p class="text-gray-300">💬 <strong>{{ $comment->user->name }}:</strong> {{ $comment->comment }}</p>
-            @endforeach
-
-            <!-- Kommentointi -->
-            <form action="{{ route('comments.store', ['id' => $suggestion->feedback->id]) }}" method="POST" class="mt-4">
-                @csrf
-                <textarea name="comment" rows="2" class="w-full p-2 rounded-lg" placeholder="Lisää kommentti"></textarea>
-                <button type="submit" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700">
-                    Lähetä kommentti
-                </button>
-            </form>
-
-            <!-- Kategorian valinta -->
-            <form action="{{ route('category.assign', ['feedback_id' => $suggestion->feedback->id]) }}" method="POST" class="mt-4">
-                @csrf
-                <label for="category" class="block text-white mb-2">Valitse kategoria:</label>
-                <select name="category" id="category" class="w-full p-2 rounded-lg">
-                    <option value="Kategoria 1" {{ $suggestion->feedback->category?->name === 'Kategoria 1' ? 'selected' : '' }}>Kategoria 1</option>
-                    <option value="Kategoria 2" {{ $suggestion->feedback->category?->name === 'Kategoria 2' ? 'selected' : '' }}>Kategoria 2</option>
-                    <option value="Kategoria 3" {{ $suggestion->feedback->category?->name === 'Kategoria 3' ? 'selected' : '' }}>Kategoria 3</option>
-                </select>
-                <button type="submit" class="mt-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-700">
-                    Tallenna kategoria
-                </button>
-            </form>
-
+@foreach ($suggestions as $suggestion)
+<div class="bg-gray-700 p-4 mb-6 rounded-lg">
+<h3 class="text-white font-semibold">Aihe: {{ $suggestion->feedback->aihe }}</h3>
+<p class="text-white">Palaute: {{ $suggestion->feedback->palaute }}</p>
+<p class="text-white">Sähköposti: {{ $suggestion->feedback->email }}</p>
+<!-- Vastaukset -->
+@if ($suggestion->feedback->answers->count())
+@foreach ($suggestion->feedback->answers as $answer)
+<p class="text-green-200">📬 <strong>{{ $answer->employee->name ?? 'Tuntematon' }}:</strong> {{ $answer->answer }}</p>
+@endforeach
+@endif
+<!-- Kommentit -->
+@foreach ($suggestion->feedback->comments as $comment)
+<p class="text-gray-300">💬 <strong>{{ $comment->user->name }}:</strong> {{ $comment->comment }}</p>
+@endforeach
+<!-- Kommentointi -->
+<form action="{{ route('comments.store', ['id' => $suggestion->feedback->id]) }}" method="POST" class="mt-4">
+@csrf
+<textarea name="comment" rows="2" class="w-full p-2 rounded-lg" placeholder="Lisää kommentti"></textarea>
+<button type="submit" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700">
+Lähetä kommentti
+</button>
+</form>
+<!-- Kategorian valinta -->
+<form action="{{ route('category.assign', ['feedback_id' => $suggestion->feedback->id]) }}" method="POST" class="mt-4">
+@csrf
+<label for="category" class="block text-white mb-2">Valitse kategoria:</label>
+<select name="category" id="category" class="w-full p-2 rounded-lg">
+<option value="Kategoria 1" {{ $suggestion->feedback->category?->name === 'Kategoria 1' ? 'selected' : '' }}>Kategoria 1</option>
+<option value="Kategoria 2" {{ $suggestion->feedback->category?->name === 'Kategoria 2' ? 'selected' : '' }}>Kategoria 2</option>
+<option value="Kategoria 3" {{ $suggestion->feedback->category?->name === 'Kategoria 3' ? 'selected' : '' }}>Kategoria 3</option>
+</select>
+<button type="submit" class="mt-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-700">
+Tallenna kategoria
+</button>
+</form>
 <!-- Tallenna strategiaksi -nappi -->
 <form action="{{ route('admin.feedback.moveToStrategies', ['id' => $suggestion->feedback->id]) }}" method="POST" class="mt-2">
-    @csrf
-    <button type="submit" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-800">
-        Tallenna strategiaan
-    </button>
+@csrf
+<button type="submit" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-800">
+Tallenna strategiaan
+</button>
 </form>
-        </div>
-    @endforeach
+</div>
+@endforeach
 @else
-    <p class="text-gray-500">Ei ehdotuksia.</p>
+<p class="text-gray-500">Ei ehdotuksia.</p>
 @endif
 </x-app-layout>
