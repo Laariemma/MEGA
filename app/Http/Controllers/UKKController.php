@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Feedback;
 use App\Models\Category;
 use App\Models\Suggestion;
+use App\Models\Strategy;
 use Illuminate\Http\Request;
 
 class UKKController extends Controller 
@@ -35,10 +36,10 @@ class UKKController extends Controller
         }
     }
 
-    return view('ukk', compact('suggestions', 'categories'));
+   
+$strategies = Strategy::with('feedback.answers.employee', 'feedback.comments.user')->get();
+return view('ukk', compact('suggestions', 'categories', 'strategies'));
 }
-
-
 }
 
 

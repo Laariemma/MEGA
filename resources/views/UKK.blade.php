@@ -70,6 +70,33 @@
 
 
 
+<!-- Strategiaan tallennetut tiketit -->
+    <h2 class="text-2xl font-bold text-white mt-10 mb-4">Strategiaan tallennetut tiketit</h2>
+    @if ($strategies->count())
+        @foreach ($strategies as $strategy)
+            <div class="bg-white dark:bg-gray-800 p-4 mb-4 rounded shadow">
+                <h3 class="text-lg font-semibold">Aihe: {{ $strategy->feedback->aihe }}</h3>
+                <p>Palaute: {{ $strategy->feedback->palaute }}</p>
+
+                @if($strategy->feedback->answers && $strategy->feedback->answers->isNotEmpty())
+                    <div class="mt-4 bg-gray-100 dark:bg-gray-700 p-4 rounded">
+                        <h4 class="font-semibold">Vastaukset:</h4>
+                        @foreach ($strategy->feedback->answers as $answer)
+                            <div class="mt-2">
+                                <strong>{{ $answer->employee->name ?? 'Tuntematon' }}:</strong>
+                                <p>{{ $answer->answer }}</p>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <p class="mt-2 text-gray-500">Ei vastauksia vielä.</p>
+                @endif
+            </div>
+        @endforeach
+    @else
+        <p>Ei strategiaan tallennettuja tikettejä.</p>
+    @endif
+
     <!-- Ehdotetut tiketit -->
     @if (request()->has('category_name') && $suggestions->count())
     @foreach ($suggestions as $suggestion)
@@ -95,6 +122,8 @@
 @elseif(request()->has('category_name'))
     <p>Ei ehdotettuja tikettejä tälle kategorialle.</p>
 @endif
+
+
 </div>
 
 </div>
